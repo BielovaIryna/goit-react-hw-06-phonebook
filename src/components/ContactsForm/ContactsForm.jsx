@@ -1,15 +1,33 @@
 import { nanoid } from 'nanoid'
 import css from './ContactsForm.module.css'
 import { useState } from 'react'
-export const ContactsForm =({addContact})=> {
+import { useDispatch, useSelector } from 'react-redux';
+import { selectContacts } from 'redux/selectors';
+import { Notify } from 'notiflix';
+import { addContact } from 'redux/contactsSlice';
+
+export const ContactsForm =()=> {
+
 	const [name, setName]= useState('');
 	const [phone, setPhone]= useState('');
-	
+
+const contacts = useSelector(selectContacts);
+const dispatch = useDispatch();
+
+
 const handlerSubmit =(e) =>{
 	e.preventDefault();
 
     const newContact = {name, phone, id: nanoid(5)};
-	addContact(newContact);
+	const hasDuplicates = contacts.some(
+		cont => cont.name.toLowerCase().trim() === newContact.name.toLowerCase().trim()
+	  );
+	  if (hasDuplicates) {
+		Notify.failure(`${newContact.name} already exists`);
+		return;
+	  }
+ dispatch(addContact(newContact));
+	
 	setName("");
 	setPhone("")
 	
