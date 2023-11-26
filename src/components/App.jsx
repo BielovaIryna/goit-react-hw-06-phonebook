@@ -3,9 +3,9 @@ import css from './App.module.css';
 import { useSelector } from 'react-redux';
 
 import { selectContacts } from 'redux/selectors';
-const { ContactList } = require('./ContactsList/ContactsList');
-const { Filter } = require('./Filter/Filter');
-const { ContactsForm } = require('./ContactsForm/ContactsForm');
+import { ContactList } from './ContactsList/ContactsList';
+import { Filter } from './filter/Filter';
+import { ContactsForm } from'./ContactsForm/ContactsForm';
 
 export const App = () => {
   const contacts = useSelector(selectContacts);
